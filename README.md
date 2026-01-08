@@ -136,6 +136,4 @@ npm run test
 
 ---
 
-Se você quiser, posso também criar uma versão **mais visual e amigável**, com badges de status, links diretos para endpoints e instruções de seed de forma mais detalhada, que fica ótima no GitHub.
-
 Quer que eu faça isso?
