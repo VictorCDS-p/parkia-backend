@@ -86,7 +86,7 @@ export class VagasService {
       livres,
       manutencao,
       percentualOcupacao: totalAtivas
-        ? Math.round((ocupadas / totalAtivas) * 100)
+        ? Number(((ocupadas / totalAtivas) * 100).toFixed(2))
         : 0,
     };
   }
