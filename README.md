@@ -214,16 +214,6 @@ PUT /tarifas/:id
 }
 ```
 
----
-
-## ✅ Testes Automatizados
-
-```bash
-npm run test
-```
-
----
-
 ## 🛠 Decisões Técnicas
 
 * **SQLite**: Simples de configurar e portátil
