@@ -1,11 +1,3 @@
----
-
-# ![PARKIA](https://img.shields.io/badge/PARKIA-Estacionamentos%20Inteligentes-blue) PARKIA – Plataforma de Estacionamentos Inteligentes
-
-[![Node.js](https://img.shields.io/badge/Node.js-18.x-green)](https://nodejs.org/) [![NestJS](https://img.shields.io/badge/NestJS-Framework-red)](https://nestjs.com/) [![SQLite](https://img.shields.io/badge/SQLite-DB-blue)](https://www.sqlite.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)](https://www.typescriptlang.org/)
-
----
-
 ## 🎯 Objetivo
 
 O **PARKIA** é um sistema de Gestão de Vagas de Estacionamento que implementa regras de negócio realistas:
