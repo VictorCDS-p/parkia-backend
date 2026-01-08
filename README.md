@@ -1,65 +1,77 @@
-# PARKIA – Plataforma de Estacionamentos Inteligentes
+---
 
-## Objetivo
+# ![PARKIA](https://img.shields.io/badge/PARKIA-Estacionamentos%20Inteligentes-blue) PARKIA – Plataforma de Estacionamentos Inteligentes
 
-O **PARKIA** é um sistema de Gestão de Vagas de Estacionamento que implementa regras de negócio realistas, incluindo controle de ocupação, histórico de movimentações e validações de entrada/saída de veículos.
+[![Node.js](https://img.shields.io/badge/Node.js-18.x-green)](https://nodejs.org/) [![NestJS](https://img.shields.io/badge/NestJS-Framework-red)](https://nestjs.com/) [![SQLite](https://img.shields.io/badge/SQLite-DB-blue)](https://www.sqlite.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)](https://www.typescriptlang.org/)
 
-## Tecnologias Utilizadas
+---
+
+## 🎯 Objetivo
+
+O **PARKIA** é um sistema de Gestão de Vagas de Estacionamento que implementa regras de negócio realistas:
+
+* Controle de ocupação das vagas
+* Histórico completo de movimentações
+* Validações de entrada/saída de veículos
+
+---
+
+## 🛠 Tecnologias Utilizadas
 
 * **Backend**: NestJS (TypeScript)
 * **Banco de Dados**: SQLite (via Prisma ORM)
 * **Gerenciamento de Pacotes**: npm
 
-## Requisitos do Sistema
+---
+
+## 🗂 Requisitos do Sistema
 
 ### Banco de Dados
 
-O sistema utiliza as seguintes tabelas principais:
+Tabelas principais:
 
-* **vagas**: Armazena as vagas com número único, status (`LIVRE`, `OCUPADA`, `MANUTENCAO`) e tipo (`CARRO`, `MOTO`).
-* **movimentacoes**: Registra entradas e saídas de veículos, vinculando a vaga e calculando o valor a pagar.
-* **tarifas**: Define valores por tipo de veículo (primeira hora, hora adicional e tolerância).
+| Tabela          | Descrição                                                                       |
+| --------------- | ------------------------------------------------------------------------------- |
+| `vagas`         | Número único, status (`LIVRE`, `OCUPADA`, `MANUTENCAO`), tipo (`CARRO`, `MOTO`) |
+| `movimentacoes` | Entradas e saídas, vinculando a vaga e cálculo de valor                         |
+| `tarifas`       | Valores por tipo de veículo: primeira hora, hora adicional, tolerância          |
 
-### Regras de Negócio Implementadas
+### Regras de Negócio
 
-#### Entrada de Veículo
+**Entrada de Veículo**
 
-* Valida se a vaga está livre.
-* Bloqueia ocupação de vagas em manutenção.
-* Valida compatibilidade: Moto pode usar vaga de Carro, mas Carro não pode usar vaga de Moto.
+* Valida se a vaga está livre
+* Bloqueia vagas em manutenção
+* Moto pode usar vaga de Carro, mas Carro não pode usar vaga de Moto
 
-#### Saída de Veículo
+**Saída de Veículo**
 
-* Calcula o tempo de permanência e o valor a pagar.
-* Aplica tolerância de 15 minutos por padrão (tempo grátis).
-* Libera automaticamente a vaga após a saída do veículo.
+* Calcula permanência e valor a pagar
+* Aplica tolerância de 15 minutos (tempo grátis)
+* Libera automaticamente a vaga após saída
 
-#### Gestão de Vagas
+**Gestão de Vagas**
 
-* Valida o formato do número da vaga (ex: `A1`, `B2`).
-* Impede a exclusão de vagas ocupadas.
+* Valida formato do número da vaga (ex: `A1`, `B2`)
+* Impede exclusão de vagas ocupadas
 
-## Instalação e Execução
+---
 
-### 1. Instalar Dependências
+## ⚡ Instalação e Execução
 
-Certifique-se de ter o Node.js instalado. Na raiz do projeto, execute:
+### 1️⃣ Instalar Dependências
 
 ```bash
 npm install
 ```
 
-### 2. Configurar e Rodar o Banco de Dados
-
-O projeto utiliza SQLite para simplificar a configuração local.
-
-Gere as migrações e o banco de dados:
+### 2️⃣ Configurar e Rodar o Banco de Dados
 
 ```bash
 npx prisma migrate dev
 ```
 
-Popule o banco com dados iniciais (seed de vagas e tarifas):
+Popule com dados iniciais:
 
 ```bash
 npm run seed
@@ -67,61 +79,163 @@ npm run seed
 npx prisma db seed
 ```
 
-### 3. Executar a API
-
-Para iniciar o servidor em modo de desenvolvimento:
+### 3️⃣ Executar a API
 
 ```bash
 npm run start:dev
 ```
 
-A API estará disponível em: [http://localhost:3000](http://localhost:3000)
+API disponível: [http://localhost:3000](http://localhost:3000)
 
-### 4. Acessar o Frontend
+### 4️⃣ Acessar o Frontend
 
-O backend está configurado com **CORS** para aceitar requisições da origem [http://localhost:5173](http://localhost:5173).
-Certifique-se de que sua aplicação frontend (React/Lovable) esteja rodando nesta porta.
+O backend aceita requisições da origem [http://localhost:5173](http://localhost:5173).
+Certifique-se de que o frontend (React/Lovable) esteja rodando nesta porta.
 
 ---
 
-## Documentação da API (Endpoints)
+## 📡 Documentação da API (Endpoints)
 
 ### Vagas
 
-* `GET /vagas` – Listar todas as vagas
+**Listar todas as vagas**
 
-  * Filtros (Query params): `?status=LIVRE&tipo=CARRO`
-* `POST /vagas` – Criar uma nova vaga
+```http
+GET /vagas
+```
 
-  * Body: `{ "numero": "A1", "tipo": "CARRO" }`
-* `PUT /vagas/:id` – Atualizar dados da vaga
-* `DELETE /vagas/:id` – Excluir vaga (apenas se estiver livre)
-* `GET /vagas/estatisticas` – Retorna total de vagas, ocupadas, livres e percentual de ocupação
+Query params opcionais:
 
-### Movimentações
+```
+?status=LIVRE&tipo=CARRO
+```
 
-* `POST /movimentacoes/entrada` – Registrar entrada de veículo
+**Criar nova vaga**
 
-  * Body: `{ "placa": "ABC-1234", "vagaId": "uuid...", "tipoVeiculo": "CARRO" }`
-* `POST /movimentacoes/saida` – Registrar saída de veículo
+```http
+POST /vagas
+```
 
-  * Body: `{ "placa": "ABC-1234" }`
-* `GET /movimentacoes` – Listar veículos atualmente no pátio
-* `GET /movimentacoes/historico` – Histórico de movimentações
+```json
+{
+  "numero": "A1",
+  "tipo": "CARRO"
+}
+```
 
-  * Filtros (Query params): `?inicio=2023-01-01&fim=2023-12-31`
+**Atualizar vaga**
 
-### Tarifas
+```http
+PUT /vagas/:id
+```
 
-* `GET /tarifas` – Listar tarifas configuradas
-* `PUT /tarifas/:id` – Atualizar valores de uma tarifa
+```json
+{
+  "numero": "B2",
+  "tipo": "MOTO",
+  "status": "LIVRE"
+}
+```
 
-## Decisões Técnicas
+**Excluir vaga (apenas se livre)**
 
-* **SQLite**: Escolhido pela simplicidade de configuração e portabilidade para desenvolvimento.
-* **Prisma ORM**: Facilita modelagem de dados, migrações e garante type-safety.
-* **NestJS**: Framework modular, com injeção de dependência e fácil escalabilidade.
+```http
+DELETE /vagas/:id
+```
+
+**Estatísticas de vagas**
+
+```http
+GET /vagas/estatisticas
+```
 
 ---
 
-Quer que eu faça isso?
+### Movimentações
+
+**Registrar entrada**
+
+```http
+POST /movimentacoes/entrada
+```
+
+```json
+{
+  "placa": "ABC-1234",
+  "vagaId": "uuid-da-vaga",
+  "tipoVeiculo": "CARRO"
+}
+```
+
+**Registrar saída**
+
+```http
+POST /movimentacoes/saida
+```
+
+```json
+{
+  "placa": "ABC-1234"
+}
+```
+
+**Listar veículos no pátio**
+
+```http
+GET /movimentacoes
+```
+
+**Histórico de movimentações**
+
+```http
+GET /movimentacoes/historico
+```
+
+Query params opcionais:
+
+```
+?inicio=2023-01-01&fim=2023-12-31
+```
+
+---
+
+### Tarifas
+
+**Listar tarifas**
+
+```http
+GET /tarifas
+```
+
+**Atualizar tarifa**
+
+```http
+PUT /tarifas/:id
+```
+
+```json
+{
+  "tipoVeiculo": "CARRO",
+  "primeiraHora": 5.00,
+  "horaAdicional": 3.00,
+  "toleranciaMinutos": 15
+}
+```
+
+---
+
+## ✅ Testes Automatizados
+
+```bash
+npm run test
+```
+
+---
+
+## 🛠 Decisões Técnicas
+
+* **SQLite**: Simples de configurar e portátil
+* **Prisma ORM**: Facilita modelagem, migrações e type-safety
+* **NestJS**: Framework modular, escalável e com injeção de dependência
+
+---
