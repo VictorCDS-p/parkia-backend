@@ -4,7 +4,6 @@ import {
   TipoVaga,
   TipoVeiculo,
 } from '@prisma/client';
-
 import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 
 const prisma = new PrismaClient({
@@ -24,8 +23,34 @@ async function seed() {
     data: [
       { numero: 'A1', tipo: TipoVaga.CARRO, status: StatusVaga.LIVRE },
       { numero: 'A2', tipo: TipoVaga.CARRO, status: StatusVaga.LIVRE },
+      { numero: 'A3', tipo: TipoVaga.CARRO, status: StatusVaga.LIVRE },
+      { numero: 'A4', tipo: TipoVaga.CARRO, status: StatusVaga.LIVRE },
+
       { numero: 'B1', tipo: TipoVaga.MOTO, status: StatusVaga.LIVRE },
-      { numero: 'D1', tipo: TipoVaga.DEFICIENTE, status: StatusVaga.LIVRE },
+      { numero: 'B2', tipo: TipoVaga.MOTO, status: StatusVaga.LIVRE },
+      { numero: 'B3', tipo: TipoVaga.MOTO, status: StatusVaga.LIVRE },
+      { numero: 'B4', tipo: TipoVaga.MOTO, status: StatusVaga.LIVRE },
+
+      {
+        numero: 'D1',
+        tipo: TipoVaga.DEFICIENTE,
+        status: StatusVaga.MANUTENCAO,
+      },
+      {
+        numero: 'D2',
+        tipo: TipoVaga.DEFICIENTE,
+        status: StatusVaga.MANUTENCAO,
+      },
+      {
+        numero: 'D3',
+        tipo: TipoVaga.DEFICIENTE,
+        status: StatusVaga.MANUTENCAO,
+      },
+      {
+        numero: 'D4',
+        tipo: TipoVaga.DEFICIENTE,
+        status: StatusVaga.MANUTENCAO,
+      },
     ],
   });
 
