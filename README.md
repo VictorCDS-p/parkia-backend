@@ -1,3 +1,13 @@
+Perfeito! Aqui está o README do **backend** atualizado, incluindo o link da API hospedada no Render, de forma visual e uniforme com o frontend:
+
+---
+
+# ![PARKIA](https://img.shields.io/badge/PARKIA-Backend-blue) PARKIA – Backend
+
+[![NestJS](https://img.shields.io/badge/NestJS-Framework-red)](https://nestjs.com/) [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)](https://www.typescriptlang.org/) [![SQLite](https://img.shields.io/badge/SQLite-DB-blue)](https://www.sqlite.org/)
+
+---
+
 ## 🎯 Objetivo
 
 O **PARKIA** é um sistema de Gestão de Vagas de Estacionamento que implementa regras de negócio realistas:
@@ -63,7 +73,7 @@ npm install
 npx prisma generate
 ```
 
-> Isso garante que os tipos do TypeScript (PrismaClient e enums) estejam disponíveis.
+> Garante que os tipos do TypeScript (PrismaClient e enums) estejam disponíveis.
 
 ### 3️⃣ Criar e Migrar o Banco de Dados
 
@@ -71,23 +81,19 @@ npx prisma generate
 npx prisma migrate dev
 ```
 
-> Isso cria o arquivo `dev.db` e aplica as tabelas definidas no schema.
+> Cria o arquivo `dev.db` e aplica as tabelas definidas no schema.
 
 ### 4️⃣ Rodar Seed (Popular Dados Iniciais)
 
 ```bash
 npx prisma db seed
-```
-
-> Ou, se você configurar o `package.json`:
-
-```bash
+# ou
 npm run seed
 ```
 
-> Isso insere vagas e tarifas iniciais no banco.
+> Insere vagas e tarifas iniciais no banco.
 
-### 5️⃣ Executar a API
+### 5️⃣ Executar a API Localmente
 
 ```bash
 npm run start:dev
@@ -98,7 +104,7 @@ API disponível: [http://localhost:3000](http://localhost:3000)
 ### 6️⃣ Acessar o Frontend
 
 O backend aceita requisições da origem [http://localhost:5173](http://localhost:5173).
-Certifique-se de que o frontend (React/Lovable) esteja rodando nesta porta.
+Certifique-se de que o frontend esteja rodando nesta porta.
 
 ---
 
@@ -240,3 +246,13 @@ PUT /tarifas/:id
 
 ---
 
+## 🌐 Links Úteis
+
+* **API hospedada (Render):** [https://parkia-backend.onrender.com](https://parkia-backend.onrender.com)
+* **Frontend do Parkia (Vercel):** [https://parkia-frontend.vercel.app](https://parkia-frontend.vercel.app)
+* **Repositório do Frontend:** [Link do Frontend](https://github.com/VictorCDS-p/parkia-frontend)
+---
+
+Se quiser, posso criar **uma versão final de ambos READMEs (frontend e backend) com badges de build, versão, testes e links diretos para APIs**, deixando eles totalmente uniformes e prontos para GitHub.
+
+Quer que eu faça isso?
