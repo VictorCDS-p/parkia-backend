@@ -1,99 +1,91 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# PARKIA – Plataforma de Estacionamentos Inteligentes
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Objetivo
+Construir um sistema de Gestão de Vagas de Estacionamento com regras de negócio realistas, incluindo controle de ocupação, histórico de movimentações e validações de entrada/saída.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas
+- **Backend**: NestJS (TypeScript)
+- **Banco de Dados**: SQLite (via Prisma ORM)
+- **Gerenciamento de Pacotes**: npm
 
-## Description
+## Requisitos do Sistema
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Banco de Dados
+O sistema utiliza as seguintes tabelas principais:
+- **vagas**: Armazena as vagas com número único, status (livre/ocupada/manutencao) e tipo.
+- **movimentacoes**: Registra entradas e saídas, vinculando vaga e veículo, com cálculo de valor.
+- **tarifas**: Define valores por tipo de veículo (primeira hora, hora adicional, tolerância).
 
-## Project setup
+### Regras de Negócio Implementadas
+- **Entrada de Veículo**:
+  - Validação se a vaga está livre.
+  - Bloqueio de ocupação em vagas em manutenção.
+  - Validação de compatibilidade (Moto pode usar vaga de Carro, mas Carro não usa vaga de Moto).
+- **Saída de Veículo**:
+  - Cálculo de permanência e valor a pagar.
+  - Aplicação de tolerância (padrão 15 minutos grátis).
+  - Liberação automática da vaga após saída.
+- **Gestão de Vagas**:
+  - Validação de formato do número da vaga (ex: A1, B2).
+  - Impedimento de exclusão de vagas ocupadas.
 
-```bash
-$ npm install
-```
+## Instalação e Execução
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
+### 1. Instalar Dependências
+Certifique-se de ter o Node.js instalado. Na raiz do projeto, execute:
 
 ```bash
-# unit tests
-$ npm run test
+npm install
 
-# e2e tests
-$ npm run test:e2e
+2. Configurar e Rodar o Banco de Dados
+O projeto utiliza SQLite para simplificar a configuração local.
 
-# test coverage
-$ npm run test:cov
-```
+Gere as migrações e o arquivo do banco de dados (dev.db):
 
-## Deployment
+Popule o banco com dados iniciais (Seed de vagas e tarifas):
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+npm run seed
+# ou
+npx prisma db seed
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+3. Executar a API
+Para iniciar o servidor em modo de desenvolvimento:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+npm run start:dev
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+A API estará rodando em: http://localhost:3000
 
-## Resources
+4. Acessar o Frontend
+O backend está configurado (CORS) para aceitar requisições da origem http://localhost:5173. Certifique-se de que sua aplicação frontend (React/Lovable) esteja rodando nesta porta.
 
-Check out a few resources that may come in handy when working with NestJS:
+Documentação da API (Endpoints)
+Vagas
+GET /vagas: Listar todas as vagas.
+Filtros (Query params): ?status=LIVRE&tipo=CARRO
+POST /vagas: Criar uma nova vaga.
+Body: { "numero": "A1", "tipo": "CARRO" }
+PUT /vagas/:id: Atualizar dados da vaga.
+DELETE /vagas/:id: Excluir vaga (apenas se estiver livre).
+GET /vagas/estatisticas: Retorna total de vagas, ocupadas, livres e percentual de ocupação.
+Movimentações
+POST /movimentacoes/entrada: Registrar entrada.
+Body: { "placa": "ABC-1234", "vagaId": "uuid...", "tipoVeiculo": "CARRO" }
+POST /movimentacoes/saida: Registrar saída.
+Body: { "placa": "ABC-1234" }
+GET /movimentacoes: Listar veículos atualmente no pátio.
+GET /movimentacoes/historico: Histórico de movimentações.
+Filtros (Query params): ?inicio=2023-01-01&fim=2023-12-31
+Tarifas
+GET /tarifas: Listar tarifas configuradas.
+PUT /tarifas/:id: Atualizar valores de uma tarifa.
+Testes
+Para executar os testes automatizados dos principais fluxos:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+npm run test
 
-## Support
+Decisões Técnicas
+SQLite: Escolhido pela simplicidade de configuração e portabilidade para o ambiente de desenvolvimento e avaliação.
+Prisma ORM: Utilizado para facilitar a modelagem de dados, migrações e type-safety no acesso ao banco.
+NestJS: Framework escolhido para garantir arquitetura modular, injeção de dependência e fácil escalabilidade.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-# parkia-backend
