@@ -12,6 +12,7 @@ export class TarifasController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() dto: any) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return this.tarifasService.update(id, dto);
   }
 }

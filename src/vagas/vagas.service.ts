@@ -47,6 +47,12 @@ export class VagasService {
   }
 
   async update(id: string, dto: UpdateVagaDto) {
+    if (dto.numero && !/^[A-Z]+[0-9]+$/.test(dto.numero)) {
+      throw new BadRequestException(
+        'O número da vaga deve seguir o padrão LetraNúmero (ex: A1, B2)',
+      );
+    }
+
     return this.prisma.vaga.update({
       where: { id },
       data: dto,
