@@ -19,6 +19,12 @@ export class VagasService {
   }
 
   async create(dto: CreateVagaDto) {
+    if (!/^[A-Z]+[0-9]+$/.test(dto.numero)) {
+      throw new BadRequestException(
+        'O número da vaga deve seguir o padrão LetraNúmero (ex: A1, B2)',
+      );
+    }
+
     try {
       return await this.prisma.vaga.create({
         data: {
@@ -66,12 +72,16 @@ export class VagasService {
       this.prisma.vaga.count({ where: { status: StatusVaga.MANUTENCAO } }),
     ]);
 
+    const totalAtivas = total - manutencao;
+
     return {
       total,
       ocupadas,
       livres,
       manutencao,
-      percentualOcupacao: total ? (ocupadas / total) * 100 : 0,
+      percentualOcupacao: totalAtivas
+        ? Math.round((ocupadas / totalAtivas) * 100)
+        : 0,
     };
   }
 }
