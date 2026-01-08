@@ -57,21 +57,37 @@ Tabelas principais:
 npm install
 ```
 
-### 2️⃣ Configurar e Rodar o Banco de Dados
+### 2️⃣ Gerar Prisma Client
+
+```bash
+npx prisma generate
+```
+
+> Isso garante que os tipos do TypeScript (PrismaClient e enums) estejam disponíveis.
+
+### 3️⃣ Criar e Migrar o Banco de Dados
 
 ```bash
 npx prisma migrate dev
 ```
 
-Popule com dados iniciais:
+> Isso cria o arquivo `dev.db` e aplica as tabelas definidas no schema.
+
+### 4️⃣ Rodar Seed (Popular Dados Iniciais)
 
 ```bash
-npm run seed
-# ou
 npx prisma db seed
 ```
 
-### 3️⃣ Executar a API
+> Ou, se você configurar o `package.json`:
+
+```bash
+npm run seed
+```
+
+> Isso insere vagas e tarifas iniciais no banco.
+
+### 5️⃣ Executar a API
 
 ```bash
 npm run start:dev
@@ -79,7 +95,7 @@ npm run start:dev
 
 API disponível: [http://localhost:3000](http://localhost:3000)
 
-### 4️⃣ Acessar o Frontend
+### 6️⃣ Acessar o Frontend
 
 O backend aceita requisições da origem [http://localhost:5173](http://localhost:5173).
 Certifique-se de que o frontend (React/Lovable) esteja rodando nesta porta.
@@ -214,6 +230,8 @@ PUT /tarifas/:id
 }
 ```
 
+---
+
 ## 🛠 Decisões Técnicas
 
 * **SQLite**: Simples de configurar e portátil
@@ -221,3 +239,5 @@ PUT /tarifas/:id
 * **NestJS**: Framework modular, escalável e com injeção de dependência
 
 ---
+
+
