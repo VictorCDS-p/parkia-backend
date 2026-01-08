@@ -116,18 +116,6 @@ Certifique-se de que sua aplicação frontend (React/Lovable) esteja rodando nes
 * `GET /tarifas` – Listar tarifas configuradas
 * `PUT /tarifas/:id` – Atualizar valores de uma tarifa
 
----
-
-## Testes
-
-Para executar os testes automatizados dos principais fluxos:
-
-```bash
-npm run test
-```
-
----
-
 ## Decisões Técnicas
 
 * **SQLite**: Escolhido pela simplicidade de configuração e portabilidade para desenvolvimento.
