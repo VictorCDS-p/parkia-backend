@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+
+enum StatusVaga {
+  LIVRE
+  OCUPADA
+  MANUTENCAO
+}
+
+enum TipoVaga {
+  CARRO
+  MOTO
+  DEFICIENTE
+}
+
+enum TipoVeiculo {
+  CARRO
+  MOTO
+}
+
+model Vaga {
+  id         String   @id @default(uuid())
+  numero     String   @unique
+  status     StatusVaga @default(LIVRE)
+  tipo       TipoVaga
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  movimentacoes Movimentacao[]
+}
+
+model Movimentacao {
+  id           String   @id @default(uuid())
+  placa        String
+  tipoVeiculo  TipoVeiculo
+  entrada      DateTime @default(now())
+  saida        DateTime?
+  valorPago    Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  vagaId String
+  vaga   Vaga   @relation(fields: [vagaId], references: [id])
+}
+
+model Tarifa {
+  id                 String @id @default(uuid())
+  tipoVeiculo        TipoVeiculo
+  valorPrimeiraHora  Float
+  valorHoraAdicional Float
+  toleranciaMinutos  Int    @default(15)
+}
