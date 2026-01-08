@@ -1,4 +1,4 @@
-# ![PARKIA](https://img.shields.io/badge/PARKIA-Backend-blue) PARKIA – Backend
+# PARKIA – Backend
 
 [![NestJS](https://img.shields.io/badge/NestJS-Framework-red)](https://nestjs.com/) [![TypeScript](https://img.shields.io/badge/TypeScript-4.x-blue)](https://www.typescriptlang.org/) [![SQLite](https://img.shields.io/badge/SQLite-DB-blue)](https://www.sqlite.org/)
 
