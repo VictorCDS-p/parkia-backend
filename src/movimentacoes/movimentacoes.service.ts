@@ -13,12 +13,17 @@ export class MovimentacoesService {
     return this.prisma.$transaction(async (tx) => {
       const vaga = await tx.vaga.findUnique({ where: { id: vagaId } });
 
-      if (!vaga) throw new BadRequestException('Vaga não encontrada');
+      if (!vaga)
+        throw new BadRequestException('A vaga informada não foi encontrada');
       if (vaga.status !== StatusVaga.LIVRE)
-        throw new BadRequestException('Vaga indisponível');
+        throw new BadRequestException(
+          `A vaga selecionada não está livre (Status atual: ${vaga.status})`,
+        );
 
       if (tipoVeiculo === TipoVeiculo.CARRO && vaga.tipo === TipoVaga.MOTO) {
-        throw new BadRequestException('Carro não pode ocupar vaga de moto');
+        throw new BadRequestException(
+          'Veículos do tipo CARRO não podem estacionar em vagas exclusivas para MOTO',
+        );
       }
 
       const jaEstacionado = await tx.movimentacao.findFirst({
@@ -26,7 +31,9 @@ export class MovimentacoesService {
       });
 
       if (jaEstacionado) {
-        throw new BadRequestException('Veículo já está no estacionamento');
+        throw new BadRequestException(
+          'Este veículo já possui uma entrada registrada e ainda não realizou a saída',
+        );
       }
 
       const movimentacao = await tx.movimentacao.create({
@@ -48,13 +55,19 @@ export class MovimentacoesService {
       include: { vaga: true },
     });
 
-    if (!mov) throw new BadRequestException('Veículo não encontrado');
+    if (!mov)
+      throw new BadRequestException(
+        'Não foi encontrada uma entrada em aberto para o veículo informado',
+      );
 
     const tarifa = await this.prisma.tarifa.findFirst({
       where: { tipoVeiculo: mov.tipoVeiculo },
     });
 
-    if (!tarifa) throw new BadRequestException('Tarifa não cadastrada');
+    if (!tarifa)
+      throw new BadRequestException(
+        `Não há tarifa cadastrada para o tipo de veículo: ${mov.tipoVeiculo}`,
+      );
 
     const agora = new Date();
     const minutos = Math.ceil(

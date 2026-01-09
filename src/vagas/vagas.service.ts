@@ -21,7 +21,7 @@ export class VagasService {
   async create(dto: CreateVagaDto) {
     if (!/^[A-Z]+[0-9]+$/.test(dto.numero)) {
       throw new BadRequestException(
-        'O número da vaga deve seguir o padrão LetraNúmero (ex: A1, B2)',
+        'O número da vaga deve ser composto por letras maiúsculas seguidas de números (ex: A1, B2)',
       );
     }
 
@@ -39,7 +39,7 @@ export class VagasService {
         error.code === 'P2002'
       ) {
         throw new BadRequestException(
-          'Já existe uma vaga cadastrada com esse número',
+          'Já existe uma vaga registrada com este número',
         );
       }
       throw error;
@@ -49,14 +49,26 @@ export class VagasService {
   async update(id: string, dto: UpdateVagaDto) {
     if (dto.numero && !/^[A-Z]+[0-9]+$/.test(dto.numero)) {
       throw new BadRequestException(
-        'O número da vaga deve seguir o padrão LetraNúmero (ex: A1, B2)',
+        'O número da vaga deve ser composto por letras maiúsculas seguidas de números (ex: A1, B2)',
       );
     }
 
-    return this.prisma.vaga.update({
-      where: { id },
-      data: dto,
-    });
+    try {
+      return await this.prisma.vaga.update({
+        where: { id },
+        data: dto,
+      });
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2002'
+      ) {
+        throw new BadRequestException(
+          'Já existe uma vaga registrada com este número',
+        );
+      }
+      throw error;
+    }
   }
 
   async remove(id: string) {
@@ -64,7 +76,9 @@ export class VagasService {
 
     if (!vaga) throw new BadRequestException('Vaga não encontrada');
     if (vaga.status !== StatusVaga.LIVRE) {
-      throw new BadRequestException('Vaga não pode ser excluída');
+      throw new BadRequestException(
+        'A vaga não pode ser excluída pois não está livre',
+      );
     }
 
     return this.prisma.vaga.delete({ where: { id } });

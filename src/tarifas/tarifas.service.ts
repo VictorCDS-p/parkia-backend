@@ -16,7 +16,9 @@ export class TarifasService {
     });
 
     if (!tarifaExiste) {
-      throw new NotFoundException('Tarifa não encontrada para o ID informado');
+      throw new NotFoundException(
+        'Não foi possível encontrar a tarifa com o ID fornecido',
+      );
     }
 
     return this.prisma.tarifa.update({

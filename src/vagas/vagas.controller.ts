@@ -32,11 +32,15 @@ export class VagasController {
     const tipoEnum = tipoClean as TipoVaga;
 
     if (statusClean && !Object.values(StatusVaga).includes(statusEnum)) {
-      throw new BadRequestException('Status inválido');
+      throw new BadRequestException(
+        `Status inválido. Opções permitidas: ${Object.values(StatusVaga).join(', ')}`,
+      );
     }
 
     if (tipoClean && !Object.values(TipoVaga).includes(tipoEnum)) {
-      throw new BadRequestException('Tipo inválido');
+      throw new BadRequestException(
+        `Tipo inválido. Opções permitidas: ${Object.values(TipoVaga).join(', ')}`,
+      );
     }
 
     return this.vagasService.findAll(statusEnum, tipoEnum);

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { MovimentacoesService } from './movimentacoes.service';
 import { EntradaMovimentacaoDto } from './dto/entrada-movimentacao.dto';
 import { SaidaMovimentacaoDto } from './dto/saida-movimentacao.dto';
@@ -24,6 +31,16 @@ export class MovimentacoesController {
 
   @Get('historico')
   historico(@Query('inicio') inicio?: string, @Query('fim') fim?: string) {
+    if (inicio && isNaN(Date.parse(inicio))) {
+      throw new BadRequestException(
+        'Data de início inválida. Use o formato ISO (ex: 2023-01-01)',
+      );
+    }
+    if (fim && isNaN(Date.parse(fim))) {
+      throw new BadRequestException(
+        'Data de fim inválida. Use o formato ISO (ex: 2023-01-01)',
+      );
+    }
     return this.movimentacoesService.findHistorico(inicio, fim);
   }
 }
