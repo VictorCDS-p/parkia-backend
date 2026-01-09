@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma, Tarifa } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
@@ -11,6 +11,14 @@ export class TarifasService {
   }
 
   async update(id: string, data: Prisma.TarifaUpdateInput): Promise<Tarifa> {
+    const tarifaExiste = await this.prisma.tarifa.findUnique({
+      where: { id },
+    });
+
+    if (!tarifaExiste) {
+      throw new NotFoundException('Tarifa não encontrada para o ID informado');
+    }
+
     return this.prisma.tarifa.update({
       where: { id },
       data,
