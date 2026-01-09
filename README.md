@@ -21,9 +21,6 @@ O **PARKIA** é um sistema de Gestão de Vagas de Estacionamento que implementa 
 * **Gerenciamento de Pacotes**: npm
 
 ---
-
-## 🗂 Requisitos do Sistema
-
 ### Banco de Dados
 
 Tabelas principais:
