@@ -248,7 +248,3 @@ PUT /tarifas/:id
 * **Frontend do Parkia (Vercel):** [https://parkia-frontend.vercel.app](https://parkia-frontend.vercel.app)
 * **Repositório do Frontend:** [Link do Frontend](https://github.com/VictorCDS-p/parkia-frontend)
 ---
-
-Se quiser, posso criar **uma versão final de ambos READMEs (frontend e backend) com badges de build, versão, testes e links diretos para APIs**, deixando eles totalmente uniformes e prontos para GitHub.
-
-Quer que eu faça isso?
