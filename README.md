@@ -143,7 +143,6 @@ PUT /vagas/:id
 {
   "numero": "B2",
   "tipo": "MOTO",
-  "status": "LIVRE"
 }
 ```
 
