@@ -94,13 +94,6 @@ npm run start:dev
 
 API disponível: [http://localhost:3000](http://localhost:3000)
 
-### 6️⃣ Acessar o Frontend
-
-O backend aceita requisições da origem [http://localhost:5173](http://localhost:5173).
-Certifique-se de que o frontend esteja rodando nesta porta.
-
----
-
 ## 📡 Documentação da API (Endpoints)
 
 ### Vagas
